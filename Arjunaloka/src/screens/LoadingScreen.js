@@ -1,10 +1,20 @@
-import { useEffect, useRef } from 'react';
-import { Animated, Easing, Text, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Animated, Easing } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { FadeInView, PulseView, ScaleInView } from '../components/AnimatedComponents';
+import { DUMMY_TEXT } from '../constants';
+import { FadeInView, ScaleInView, PulseView } from '../components/AnimatedComponents';
+import { OCRService, MockOCRService } from '../services/ocrService';
+import { ApiService, MockApiService } from '../services/apiService';
+
+// Toggle between real and mock services for testing
+const USE_MOCK_SERVICES = false; // Set to false when Flask server is ready
 
 export default function LoadingScreen({ navigation, route }) {
   const { photo } = route.params || {};
+  const [currentStep, setCurrentStep] = useState(1);
+  const [progress, setProgress] = useState(0);
+  const [statusText, setStatusText] = useState('Preparing analysis...');
+  
   const rotateAnim = useRef(new Animated.Value(0)).current;
   const progressAnim = useRef(new Animated.Value(0)).current;
 
@@ -19,60 +29,74 @@ export default function LoadingScreen({ navigation, route }) {
       })
     );
 
-    // Start progress animation
-    const progressAnimation = Animated.timing(progressAnim, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.out(Easing.cubic),
-      useNativeDriver: false,
-    });
-
     rotateAnimation.start();
-    progressAnimation.start();
 
-    // Simulate analysis process
-    const analysisTimer = setTimeout(() => {
-      performAnalysis();
-    }, 3000);
+    // Start the real analysis process
+    performRealAnalysis();
 
     return () => {
       rotateAnimation.stop();
-      progressAnimation.stop();
-      clearTimeout(analysisTimer);
     };
   }, []);
 
-  // Simulate ingredient analysis (we'll connect to real OCR + backend later)
-  const performAnalysis = async () => {
+  // Real analysis using OCR + Flask backend
+  const performRealAnalysis = async () => {
     try {
-      // For now, simulate with dummy data
-      // In real implementation: OCR photo → extract text → send to your Flask API
+      // Step 1: Extract text from image using OCR
+      setCurrentStep(1);
+      setStatusText('Scanning text from image...');
       
-      const mockIngredientResults = [
-        { name: "Water", status: "safe", description: "Essential hydrating ingredient" },
-        { name: "Sodium Lauryl Sulfate", status: "harmful", description: "Can cause skin irritation" },
-        { name: "Glycerin", status: "safe", description: "Moisturizing and safe for most skin types" },
-        { name: "Parabens", status: "harmful", description: "Preservatives linked to hormonal disruption" },
-        { name: "Vitamin E", status: "safe", description: "Antioxidant that protects skin" },
-        { name: "Dimethicone", status: "harmful", description: "Silicone that can clog pores" },
-        { name: "Aloe Vera", status: "safe", description: "Soothing and healing properties" },
-        { name: "Fragrance", status: "neutral", description: "May cause reactions in sensitive individuals" },
-      ];
+      const ocrService = USE_MOCK_SERVICES ? MockOCRService : OCRService;
+      const ocrResult = await ocrService.extractIngredients(
+        photo?.uri || '',
+        (progress) => {
+          setProgress(progress);
+          setStatusText(`Scanning text... ${progress}%`);
+        }
+      );
 
-      // Navigate to results with mock data
+      if (!ocrResult.success) {
+        throw new Error(ocrResult.error || 'Failed to extract text from image');
+      }
+
+      // Step 2: Parse ingredients
+      setCurrentStep(2);
+      setStatusText('Identifying ingredients...');
+      await new Promise(resolve => setTimeout(resolve, 800)); // UX delay
+
+      // Step 3: Analyze with Flask backend
+      setCurrentStep(3);
+      setStatusText('Checking safety database...');
+      
+      const apiService = USE_MOCK_SERVICES ? MockApiService : ApiService;
+      const analysisResult = await apiService.analyzeIngredients(ocrResult.ingredients);
+
+      if (!analysisResult.success) {
+        throw new Error(analysisResult.error || 'Failed to analyze ingredients');
+      }
+
+      // Step 4: Complete
+      setCurrentStep(4);
+      setStatusText('Generating report...');
+      await new Promise(resolve => setTimeout(resolve, 500)); // UX delay
+
+      // Navigate to results with real data
       navigation.replace('Results', { 
         photo,
-        ingredients: mockIngredientResults,
+        ingredients: analysisResult.ingredients,
+        summary: analysisResult.summary,
+        rawText: ocrResult.rawText,
         analysisComplete: true 
       });
 
     } catch (error) {
-      console.error('Analysis failed:', error);
-      // Handle error - could show error screen or retry option
+      console.error('❌ Analysis failed:', error);
+      
+      // Navigate to results with error
       navigation.replace('Results', { 
         photo,
         ingredients: [],
-        error: "Analysis failed. Please try again." 
+        error: `Analysis failed: ${error.message}. Please try again with a clearer photo.`
       });
     }
   };
@@ -86,6 +110,17 @@ export default function LoadingScreen({ navigation, route }) {
     inputRange: [0, 1],
     outputRange: ['0%', '100%'],
   });
+
+  // Update progress bar based on current step
+  useEffect(() => {
+    const targetProgress = (currentStep / 4) * 100;
+    Animated.timing(progressAnim, {
+      toValue: targetProgress / 100,
+      duration: 500,
+      easing: Easing.out(Easing.cubic),
+      useNativeDriver: false,
+    }).start();
+  }, [currentStep]);
 
   return (
     <SafeAreaView className="flex-1 bg-background">
@@ -110,16 +145,16 @@ export default function LoadingScreen({ navigation, route }) {
           </Text>
         </FadeInView>
 
-        {/* Animated Description */}
+        {/* Dynamic Status Text */}
         <FadeInView delay={900}>
           <Text className="text-textPrimary text-base font-montserrat text-center leading-6 opacity-80 mb-12">
-            Please wait while we scan and analyze the ingredients in your photo...
+            {statusText}
           </Text>
         </FadeInView>
 
         {/* Animated Progress Bar */}
         <FadeInView delay={1200} className="w-full max-w-sm mb-8">
-          <View className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <View className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
             <Animated.View
               className="h-full bg-primary rounded-full"
               style={{
@@ -128,25 +163,54 @@ export default function LoadingScreen({ navigation, route }) {
             />
           </View>
           <Text className="text-center text-textPrimary font-montserrat text-sm mt-2 opacity-60">
-            Processing image...
+            Step {currentStep} of 4
           </Text>
         </FadeInView>
 
         {/* Enhanced Progress Steps */}
         <View className="w-full max-w-sm">
           <FadeInView delay={400}>
-            <ProgressStep step={1} text="Scanning text from image" completed={true} />
+            <ProgressStep 
+              step={1} 
+              text="Scanning text from image" 
+              completed={currentStep > 1} 
+              loading={currentStep === 1} 
+            />
           </FadeInView>
           <FadeInView delay={800}>
-            <ProgressStep step={2} text="Identifying ingredients" completed={true} />
+            <ProgressStep 
+              step={2} 
+              text="Identifying ingredients" 
+              completed={currentStep > 2} 
+              loading={currentStep === 2} 
+            />
           </FadeInView>
           <FadeInView delay={1200}>
-            <ProgressStep step={3} text="Checking safety database" loading={true} />
+            <ProgressStep 
+              step={3} 
+              text="Checking safety database" 
+              completed={currentStep > 3} 
+              loading={currentStep === 3} 
+            />
           </FadeInView>
           <FadeInView delay={1600}>
-            <ProgressStep step={4} text="Generating report" completed={false} />
+            <ProgressStep 
+              step={4} 
+              text="Generating report" 
+              completed={currentStep > 4} 
+              loading={currentStep === 4} 
+            />
           </FadeInView>
         </View>
+
+        {/* Service Mode Indicator (for development) */}
+        {__DEV__ && (
+          <View className="absolute bottom-4 left-4 right-4">
+            <Text className="text-xs text-gray-500 text-center">
+              Mode: {USE_MOCK_SERVICES ? '🧪 Mock Services' : '🔗 Real Backend'}
+            </Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
