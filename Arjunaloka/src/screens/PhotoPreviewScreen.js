@@ -1,0 +1,1 @@
+export { PhotoPreviewScreen as default } from './PlaceholderScreens';
