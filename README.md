@@ -36,3 +36,5 @@ Arjunaloka/
 
 Run App
 npx expo start
+OR
+npx expo start -c (to clear cache) 
