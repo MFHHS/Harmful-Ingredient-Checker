@@ -10,6 +10,9 @@ module.exports = {
       colors: {
         background: '#F9F9F9',
         primary: '#355EA2',
+        textPrimary: '#424242',
+        harmful: '#FF8B94',
+        safe: '#A8E6CF',
       },
       fontFamily: {
         montserrat: ['Montserrat_400Regular', 'sans-serif'],
