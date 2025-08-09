@@ -29,7 +29,7 @@ export default function CameraScreen({ navigation }) {
     setFlash(current => (current === 'off' ? 'on' : 'off'));
   };
 
-  // Take photo
+  // Take photo - THIS IS THE SNAP BUTTON!
   const takePhoto = async () => {
     if (cameraRef.current) {
       try {
@@ -134,7 +134,7 @@ export default function CameraScreen({ navigation }) {
         </View>
       </CameraView>
 
-      {/* Bottom Controls */}
+      {/* Bottom Controls - HERE'S YOUR SNAP BUTTON! */}
       <View className="absolute bottom-12 left-0 right-0 flex-row justify-center items-center px-6">
         {/* Gallery button */}
         <TouchableOpacity 
@@ -144,7 +144,7 @@ export default function CameraScreen({ navigation }) {
           <Text className="text-2xl">🖼️</Text>
         </TouchableOpacity>
 
-        {/* Capture button */}
+        {/* 📸 SNAP BUTTON - Big white circle button! */}
         <TouchableOpacity 
           onPress={takePhoto}
           className="w-20 h-20 bg-white rounded-full items-center justify-center border-4 border-gray-300"

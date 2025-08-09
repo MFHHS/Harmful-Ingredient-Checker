@@ -7,6 +7,7 @@ export const COLORS = {
   safe: '#A8E6CF',
   white: '#FFFFFF',
   black: '#000000',
+  gray: '#9CA3AF',
 };
 
 // Common styles
