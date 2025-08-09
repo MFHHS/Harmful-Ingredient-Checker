@@ -1,5 +1,4 @@
-import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 
 export default function CustomButton({ 
   title, 
@@ -35,9 +34,9 @@ export default function CustomButton({
   
   // Text color variants
   const textStyles = {
-    primary: disabled ? 'text-gray-600' : 'text-background font-semibold',
-    secondary: disabled ? 'text-gray-500' : 'text-primary font-semibold',
-    outline: disabled ? 'text-gray-400' : 'text-primary font-semibold',
+    primary: disabled ? 'text-gray-600 font-montserratMedium' : 'text-background font-montserratMedium',
+    secondary: disabled ? 'text-gray-500 font-montserratMedium' : 'text-primary font-montserratMedium',
+    outline: disabled ? 'text-gray-400 font-montserratMedium' : 'text-primary font-montserratMedium',
   };
   
   const buttonClass = `${baseStyle} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`;

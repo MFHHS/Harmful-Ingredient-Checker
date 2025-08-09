@@ -28,7 +28,7 @@ export const BREAKPOINTS = {
 
 // Dummy content
 export const DUMMY_TEXT = {
-  appName: "IngredientChecker",
+  appName: "Arjunaloka",
   appDescription: "Scan and analyze ingredients in your cosmetic products to know what's safe and what's not.",
   intro1: {
     title: "Smart Ingredient Analysis",

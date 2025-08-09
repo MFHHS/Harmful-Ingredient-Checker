@@ -18,16 +18,16 @@ export default function SplashScreen({ navigation }) {
       <View className="flex-1 items-center justify-center px-6">
         {/* Logo placeholder - we'll add proper logo later */}
         <View className="w-24 h-24 bg-primary rounded-full items-center justify-center mb-6">
-          <Text className="text-background text-2xl font-bold">IC</Text>
+          <Text className="text-background text-2xl font-montserratBold">A</Text>
         </View>
         
         {/* App name */}
-        <Text className="text-textPrimary text-3xl font-bold mb-4 text-center">
+        <Text className="text-textPrimary text-3xl font-montserratBold mb-4 text-center">
           {DUMMY_TEXT.appName}
         </Text>
         
         {/* Description */}
-        <Text className="text-textPrimary text-base text-center leading-6 opacity-80">
+        <Text className="text-textPrimary text-base font-montserrat text-center leading-6 opacity-80">
           {DUMMY_TEXT.appDescription}
         </Text>
       </View>
