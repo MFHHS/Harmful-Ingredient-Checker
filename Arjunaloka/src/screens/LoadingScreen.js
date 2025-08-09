@@ -7,7 +7,7 @@ import { OCRService, MockOCRService } from '../services/ocrService';
 import { ApiService, MockApiService } from '../services/apiService';
 
 // Toggle between real and mock services for testing
-const USE_MOCK_SERVICES = false; // Set to false when Flask server is ready
+const USE_MOCK_SERVICES = false; // ← CHANGED TO FALSE - Use real backend!
 
 export default function LoadingScreen({ navigation, route }) {
   const { photo } = route.params || {};
