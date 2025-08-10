@@ -40,52 +40,12 @@ export default function SplashScreen({ navigation }) {
             : 'flex-1 items-center justify-center px-6'
         }`}>
           
-          {/* Animated Logo */}
-          <ScaleInView delay={200} className="mb-8">
-            <FloatingView duration={4000}>
-              <View className={`${
-                isDesktop ? 'w-32 h-32' : 'w-24 h-24'
-              } bg-primary rounded-full items-center justify-center shadow-xl shadow-primary/30`}>
-                <Text className={`text-background font-montserratBold ${
-                  isDesktop ? 'text-4xl' : 'text-2xl'
-                }`}>
-                  A
-                </Text>
-              </View>
-            </FloatingView>
-          </ScaleInView>
-          
-          {/* Animated App Name */}
-          <FadeInView delay={600}>
-            <Text className={`text-textPrimary font-montserratBold text-center mb-4 ${
-              isDesktop ? 'text-5xl mb-6' : 'text-3xl'
-            }`}>
-              {DUMMY_TEXT.appName}
-            </Text>
-          </FadeInView>
-          
-          {/* Animated Description */}
-          <FadeInView delay={900}>
-            <Text className={`text-textPrimary font-montserrat text-center leading-6 opacity-80 ${
-              isDesktop ? 'text-lg max-w-2xl mb-8' : 'text-base mb-6'
-            }`}>
-              {DUMMY_TEXT.appDescription}
-            </Text>
-          </FadeInView>
-
           {/* Web: Show Start Now button immediately */}
           {isWeb && (
             <FadeInView delay={1200} className="mt-4">
-              <CustomButton
-                title="Start Scanning"
-                onPress={handleStartNow}
-                size="large"
-                className={isDesktop ? 'px-12 py-4' : 'px-8 py-3'}
-              />
-              
               {isDesktop && (
                 <FadeInView delay={1500}>
-                  <Text className="text-textPrimary font-montserrat text-center mt-4 opacity-60">
+                  <Text className="text-textPrimary font-montserrat text-center mt-4 opacity-60 items-center">
                     Analyze cosmetic ingredients instantly with AI
                   </Text>
                 </FadeInView>
@@ -116,34 +76,28 @@ export default function SplashScreen({ navigation }) {
               {/* Feature list for desktop */}
               <FadeInView delay={800}>
                 <Text className="text-textPrimary text-2xl font-montserratBold mb-6">
-                  How It Works
+                  Scan or upload your product label — our AI instantly spots harmful or irritating ingredients and suggests safer options.
                 </Text>
               </FadeInView>
               
               <SlideInView direction="right" delay={1000}>
                 <FeatureItem 
-                  icon="📸" 
-                  title="Snap a Photo" 
-                  description="Take a picture of any cosmetic ingredient list"
+                 //letak gambaq
                 />
               </SlideInView>
               
               <SlideInView direction="right" delay={1200}>
                 <FeatureItem 
-                  icon="🔍" 
-                  title="AI Analysis" 
-                  description="Our AI instantly identifies and analyzes each ingredient"
+                //letak gambaq
                 />
               </SlideInView>
-              
-              <SlideInView direction="right" delay={1400}>
-                <FeatureItem 
-                  icon="📊" 
-                  title="Safety Report" 
-                  description="Get color-coded results showing harmful vs safe ingredients"
-                />
-              </SlideInView>
-              
+
+              <CustomButton
+                title="Start Now"
+                onPress={handleStartNow}
+                size="large"
+                className={isDesktop ? 'px-12 py-4' : 'px-8 py-3'}
+              />
             </View>
           </View>
         )}
