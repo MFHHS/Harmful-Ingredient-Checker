@@ -14,6 +14,10 @@ cd frontend
 npm run dev
 ```
 
+OR just click:
+1. start-notebook-backend.bat
+2. start-frontend.bat
+
 Open: http://localhost:5173
 
 ## API
