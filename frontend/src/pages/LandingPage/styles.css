@@ -1,0 +1,25 @@
+/* Landing Page Wrapper */
+.landing-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hero Section Wrapper - Full Screen */
+.hero-section-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.hero-section-wrapper .hero {
+    flex: 1;
+    min-height: calc(100vh - 60px);
+    /* Subtract footer height */
+}
+
+.hero-section-wrapper .footer {
+    position: relative;
+    margin-top: auto;
+}

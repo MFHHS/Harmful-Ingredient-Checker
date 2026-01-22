@@ -1,0 +1,114 @@
+/* ========================================
+   RESULTS PAGE
+   ======================================== */
+
+.results-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg-primary);
+}
+
+/* Header */
+.results-header {
+    padding: var(--spacing-md) 0;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-md);
+}
+
+.results-brand {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: white;
+    margin: 0;
+}
+
+/* Main Content */
+.results-main {
+    flex: 1;
+    padding: var(--spacing-xl) 0;
+    overflow-y: auto;
+}
+
+.results-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Results Grid */
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Empty State */
+.results-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: #757575;
+}
+
+/* Actions */
+.results-actions {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+}
+
+.results-actions .btn {
+    min-width: 180px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 768px) {
+    .results-main {
+        padding: var(--spacing-lg) 0;
+    }
+
+    .results-title {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .results-brand {
+        font-size: var(--font-size-lg);
+    }
+
+    .results-actions .btn {
+        min-width: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .results-header {
+        padding: var(--spacing-sm) 0;
+    }
+
+    .results-brand {
+        font-size: var(--font-size-base);
+    }
+
+    .results-title {
+        font-size: var(--font-size-lg);
+    }
+}

@@ -1,0 +1,31 @@
+.footer {
+    background: var(--gradient-primary);
+    color: white;
+    padding: var(--spacing-md) 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    animation: scroll 30s linear infinite;
+}
+
+.footer-text {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}

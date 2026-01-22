@@ -1,0 +1,110 @@
+.how-it-works {
+    background: var(--gradient-hero);
+    border-top: 3px solid var(--color-primary);
+}
+
+.how-it-works-header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.steps-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    position: relative;
+}
+
+.step-card {
+    position: relative;
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+}
+
+.step-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.step-number {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-primary);
+    color: white;
+    font-size: var(--font-size-xl);
+    font-weight: 800;
+    border-radius: 50%;
+    box-shadow: var(--shadow-md);
+}
+
+.step-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    margin: var(--spacing-md) auto var(--spacing-sm);
+    background: linear-gradient(135deg, rgba(53, 94, 162, 0.1) 0%, rgba(53, 94, 162, 0.05) 100%);
+    border-radius: var(--radius-lg);
+    color: var(--color-primary);
+}
+
+.step-title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.step-description {
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    opacity: 0.75;
+    margin: 0;
+}
+
+.step-connector {
+    position: absolute;
+    top: 50%;
+    right: -40px;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--color-primary) 0%, transparent 100%);
+    transform: translateY(-50%);
+    z-index: -1;
+}
+
+.step-connector::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid var(--color-primary);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+}
+
+@media (max-width: 968px) {
+    .steps-container {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-3xl);
+    }
+
+    .step-connector {
+        display: none;
+    }
+}

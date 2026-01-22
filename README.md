@@ -1,40 +1,39 @@
-"# Backend" 
+# Harmful Ingredient Checker
 
-# Frontend
-📌 Arjunaloka – Phase 1 Setup
+Frontend connected to Main.ipynb backend.
 
-Create Project & Navigate
-npx create-expo-app Arjunaloka --template blank
-cd Arjunaloka
+## Quick Start
 
-Install Packages
-# Styling
-npm install nativewind && npm install --save-dev tailwindcss
-# Navigation
-npm install @react-navigation/native @react-navigation/native-stack
-npx expo install react-native-screens react-native-safe-area-context
-# Camera & utilities
-npx expo install expo-camera expo-media-library expo-image-picker
-npm install expo-linear-gradient
+### Terminal 1 - Backend:
+```bash
+cd backend
+python notebook_server.py
+```
 
-Config Files
-tailwind.config.js → setup Tailwind
-metro.config.js → enable NativeWind
-global.css → Tailwind imports
+### Terminal 2 - Frontend:
+```bash
+cd frontend
+npm run dev
+```
 
-Structure
-Arjunaloka/
-├── src/
-│   ├── components/           # Reusable components
-│   ├── screens/             # All your layouts/screens
-│   ├── navigation/          # Navigation setup
-│   ├── constants/           # Colors, sizes, etc.
-│   └── utils/               # Helper functions
-├── assets/                  # Images, icons
-├── App.js                   # Main app entry
-└── global.css              # Tailwind CSS
+Open: http://localhost:5173
 
-Run App
-npx expo start
-OR
-npx expo start -c (to clear cache) 
+## API
+
+Your friend's Main.ipynb provides:
+```
+POST /check_ingredients
+Body: {"ingredients": ["Water", "Parabens"]}
+Response: {"harmful": ["Parabens"], "safe": false}
+```
+
+## Files
+
+- `backend/notebook_server.py` - Flask server from Main.ipynb
+- `backend/Main.ipynb` - Your friend's original notebook
+- `frontend/src/services/api-notebook.ts` - Frontend API adapter
+- `frontend/src/pages/Scanner/index.tsx` - Uses notebook API
+
+## Note
+
+OCR is currently mocked in frontend. Your friend can add real OCR to Main.ipynb when ready.
