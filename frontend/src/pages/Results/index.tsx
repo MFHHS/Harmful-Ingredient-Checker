@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useRef } from 'react';
-import domtoimage from 'dom-to-image-more';
+import { domToPng } from 'modern-screenshot';
 import ResultCard from '../../components/ResultCard';
 import { DownloadSimple } from 'phosphor-react';
 import './styles.css';
@@ -33,13 +33,9 @@ const Results = () => {
         if (!downloadRef.current) return;
 
         try {
-            const dataUrl = await domtoimage.toPng(downloadRef.current, {
+            const dataUrl = await domToPng(downloadRef.current, {
                 quality: 1,
-                bgcolor: '#ffffff',
-                style: {
-                    transform: 'scale(1)',
-                    transformOrigin: 'top left'
-                }
+                backgroundColor: '#ffffff',
             });
 
             const link = document.createElement('a');
@@ -50,6 +46,7 @@ const Results = () => {
             link.click();
         } catch (error) {
             console.error('Error generating image:', error);
+            alert('Failed to download. Please try again.');
         }
     };
 
