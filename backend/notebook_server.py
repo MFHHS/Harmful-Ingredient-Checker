@@ -10,18 +10,27 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Allow frontend to access backend
 
-# Your friend's harmful ingredients list
+# Your friend's harmful ingredients list (lowercase for case-insensitive matching)
 HARMFUL_INGREDIENTS = {
-    "Sodium Lauryl Sulfate", "Sodium Laureth Sulfate", "Dimethicone", 
-    "Parabens", "Formaldehyde", "Phthalates", "Isopropyl Alcohol"
+    "sodium lauryl sulfate", "sodium laureth sulfate", "dimethicone", 
+    "parabens", "formaldehyde", "phthalates", "isopropyl alcohol"
 }
 
 # Your friend's check_ingredients endpoint
 @app.route('/check_ingredients', methods=['POST'])
 def check_ingredients():
     data = request.json
-    ingredients = set(data.get("ingredients", []))
-    harmful_found = list(ingredients.intersection(HARMFUL_INGREDIENTS))
+    # Convert all ingredients to lowercase for case-insensitive comparison
+    ingredients_lower = [ing.lower().strip() for ing in data.get("ingredients", [])]
+    
+    # Find harmful ingredients
+    harmful_found = []
+    for ingredient in ingredients_lower:
+        for harmful in HARMFUL_INGREDIENTS:
+            # Check if harmful ingredient is contained in the ingredient string
+            if harmful in ingredient or ingredient in harmful:
+                harmful_found.append(ingredient)
+                break
     
     return jsonify({
         "harmful": harmful_found,

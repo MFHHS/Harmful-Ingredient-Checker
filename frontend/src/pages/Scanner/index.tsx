@@ -9,6 +9,7 @@ import './styles.css';
 const Scanner = () => {
     const navigate = useNavigate();
     const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+    const [productName, setProductName] = useState<string>('');
     const [isAnalyzing, setIsAnalyzing] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -32,7 +33,7 @@ const Scanner = () => {
                 state: { 
                     ingredients: response.ingredients,
                     summary: response.summary,
-                    extractedText: response.extracted_text
+                    productName: productName || 'Product Analysis'
                 } 
             });
         } catch (err) {
@@ -69,6 +70,18 @@ const Scanner = () => {
                         <div className="scanner-intro">
                             <h2>Upload Product Ingredients</h2>
                             <p>Take a photo or upload an image of the ingredient list to check for harmful substances</p>
+                        </div>
+
+                        <div className="product-name-input">
+                            <label htmlFor="product-name">Product Name</label>
+                            <input
+                                id="product-name"
+                                type="text"
+                                placeholder="e.g., Shampoo, Face Cream, Body Lotion"
+                                value={productName}
+                                onChange={(e) => setProductName(e.target.value)}
+                                maxLength={100}
+                            />
                         </div>
 
                         <ImageUpload onFileSelect={handleFileSelect} />

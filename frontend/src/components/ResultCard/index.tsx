@@ -17,11 +17,11 @@ const ResultCard = ({ type, title, description }: ResultCardProps) => {
     const getIcon = () => {
         switch (type) {
             case 'harmful':
-                return <Warning size={24} weight="bold" />;
+                return <Warning size={20} weight="bold" />;
             case 'safe':
-                return <Check size={24} weight="bold" />;
+                return <Check size={20} weight="bold" />;
             case 'neutral':
-                return <SmileyMeh size={24} weight="regular" />;
+                return <SmileyMeh size={20} weight="regular" />;
         }
     };
 
